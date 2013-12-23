@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<connection>
+	<database id="MySQL">
+		<url>jdbc:mysql://localhost/sthildas?</url>
+		<u>dev</u>
+		<p>dev</p>
+	</database>
+	
+</connection>
