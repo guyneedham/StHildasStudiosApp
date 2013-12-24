@@ -9,6 +9,7 @@ public class Term {
 	private Date startDate;
 	private Date endDate;
 	private String title;
+	private int current;
 	
 	public int getID(){
 		return this.ID;
@@ -40,6 +41,14 @@ public class Term {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public int getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(int current) {
+		this.current = current;
 	}
 	
 }
