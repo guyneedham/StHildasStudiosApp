@@ -157,6 +157,60 @@ public class MySQLDatabase implements Storage {
 		}
 		
 	}
+	
+	public void deleteClassFromTerm(int termID, int classID) {
+		logger.debug("Removing class {} from term {}.",classID,termID);
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call deleteClassFromTerm(?,?)}");
+			stmt.setInt(1,classID);
+			stmt.setInt(2, termID);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception deleting class from term.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+		
+	}
+	
+	public void deleteStudentFromTerm(int termID, int studentID) {
+		logger.debug("Removing student {} from term {}.",studentID,termID);
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call removeStudentFromTerm(?,?)}");
+			stmt.setInt(1,studentID);
+			stmt.setInt(2, termID);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception deleting student from term.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+		
+	}
+	
+	public void addStudentToTerm(int termID, int studentID) {
+		logger.debug("Adding student {} to term {}.",studentID,termID);
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call addStudentToTerm(?,?)}");
+			stmt.setInt(1,studentID);
+			stmt.setInt(2, termID);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception adding student to term.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+		
+	}
 
 	public void addStudentToClass(int classID, int studentID) {
 		logger.debug("Adding student {} to class {}.",studentID,classID);
@@ -198,6 +252,7 @@ public class MySQLDatabase implements Storage {
 				student.setMobile(rs.getInt(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
+				student.setID(rs.getInt(14));
 				students.add(student);
 			}
 			
@@ -232,6 +287,7 @@ public class MySQLDatabase implements Storage {
 				student.setMobile(rs.getInt(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
+				student.setID(rs.getInt(14));
 				students.add(student);
 			}
 			
@@ -265,6 +321,7 @@ public class MySQLDatabase implements Storage {
 				student.setMobile(rs.getInt(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
+				student.setID(rs.getInt(14));
 				students.add(student);
 			}
 			
@@ -298,6 +355,7 @@ public class MySQLDatabase implements Storage {
 				student.setMobile(rs.getInt(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
+				student.setID(rs.getInt(14));
 				students.add(student);
 			}
 			
@@ -423,6 +481,7 @@ public class MySQLDatabase implements Storage {
 				student.setMobile(rs.getInt(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
+				student.setID(rs.getInt(14));
 				students.add(student);
 			}
 			
@@ -456,6 +515,7 @@ public class MySQLDatabase implements Storage {
 				student.setMobile(rs.getInt(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
+				student.setID(rs.getInt(14));
 			}
 			
 		} catch (SQLException e) {
@@ -618,6 +678,7 @@ public class MySQLDatabase implements Storage {
 				student.setMobile(rs.getInt(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
+				student.setID(rs.getInt(14));
 				students.add(student);
 			}
 			
@@ -656,5 +717,66 @@ public class MySQLDatabase implements Storage {
 		}
 		return classes;
 	}	
+	
+	public ArrayList<Student> getStudentsForTerm(int termID) {
+		ArrayList<Student> students = new ArrayList<Student>();
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call studentsByTerm(?)}");
+			stmt.setInt(1,termID);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				Student student = sf.newStudent();
+				student.setFirstName(rs.getString(1));
+				student.setLastName(rs.getString(2));
+				student.setAddr1(rs.getString(3));
+				student.setAddr2(rs.getString(4));
+				student.setAddr3(rs.getString(5));
+				student.setPostcode(rs.getString(6));
+				student.setDOB(rs.getDate(7));
+				student.setRAD(rs.getInt(8));
+				student.setEmail(rs.getString(9));
+				student.setPhone(rs.getInt(10));
+				student.setMobile(rs.getInt(11));
+				student.setLocation(rs.getString(12));
+				student.setComment(rs.getString(13));
+				student.setID(rs.getInt(14));
+				students.add(student);
+			}
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception getting students for term.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+		return students;
+	}
+
+	public ArrayList<DClass> getClassesForStudent(int id) {
+		ArrayList<DClass> classes = new ArrayList<DClass>();
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call showClassesForStudent(?)}");
+			stmt.setInt(1,id);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				DClass dclass = cf.newDClass();
+				dclass.setID(rs.getInt(1));
+				dclass.setName(rs.getString(2));
+				dclass.setDay(rs.getString(3));
+				dclass.setTime(rs.getTime(4));
+				dclass.setDuration(rs.getDouble(5));
+				classes.add(dclass);
+			}
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception getting classes for student.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+		return classes;
+	}
 	
 }

@@ -35,6 +35,11 @@ public interface Storage {
 	public void removeStudentFromSchool(int studentID);
 	public ArrayList<Student> getStudentsNotPaid(int termID);
 	public ArrayList<DClass> getClassDetailsForTerm(int termID);
+	public ArrayList<Student> getStudentsForTerm(int termID);
+	public void deleteClassFromTerm(int id, int id2);
+	public void deleteStudentFromTerm(int id, int id2);
+	public void addStudentToTerm(int id, int id2);
+	public ArrayList<DClass> getClassesForStudent(int id);
 	
 	
 }
