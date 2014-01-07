@@ -308,20 +308,20 @@ public class MySQLDatabase implements Storage {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()){
 				Student student = sf.newStudent();
-				student.setFirstName(rs.getString(1));
-				student.setLastName(rs.getString(2));
-				student.setAddr1(rs.getString(3));
-				student.setAddr2(rs.getString(4));
-				student.setAddr3(rs.getString(5));
-				student.setPostcode(rs.getString(6));
-				student.setDOB(rs.getDate(7));
-				student.setRAD(rs.getInt(8));
-				student.setEmail(rs.getString(9));
-				student.setPhone(rs.getInt(10));
-				student.setMobile(rs.getInt(11));
-				student.setLocation(rs.getString(12));
-				student.setComment(rs.getString(13));
-				student.setID(rs.getInt(14));
+				student.setFirstName(rs.getString(2));
+				student.setLastName(rs.getString(3));
+				student.setAddr1(rs.getString(4));
+				student.setAddr2(rs.getString(5));
+				student.setAddr3(rs.getString(6));
+				student.setPostcode(rs.getString(7));
+				student.setDOB(rs.getDate(8));
+				student.setRAD(rs.getInt(9));
+				student.setEmail(rs.getString(10));
+				student.setPhone(rs.getInt(11));
+				student.setMobile(rs.getInt(12));
+				student.setLocation(rs.getString(13));
+				student.setComment(rs.getString(14));
+				student.setID(rs.getInt(1));
 				students.add(student);
 			}
 			

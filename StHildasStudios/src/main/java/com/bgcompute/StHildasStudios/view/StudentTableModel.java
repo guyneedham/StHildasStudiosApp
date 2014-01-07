@@ -16,18 +16,32 @@ public class StudentTableModel extends AbstractTableModel {
 		this.columnNames = title;
 		this.students = students;
 	}
-
-	public int getColumnCount() {
-		return students.size();
+	
+	public String getColumnName(int column){
+		return columnNames[column];		
+	}
+	
+	public Class<?> getColumnClass(int column){
+		return getValueAt(0, column).getClass();
 	}
 
-	public int getRowCount() {
+	public int getColumnCount() {
 		return columnNames.length;
 	}
 
+	public int getRowCount() {		
+		return students.size();
+	}
+	
 	public Object getValueAt(int row, int column) {
-		Object o = null;
+		//System.out.println("Row is "+row+" column is "+column);
 		Student s = students.get(row);
+		return getObjectFromStudents(s, column);
+		
+	}
+	
+	public Object getObjectFromStudents(Student s, int column){
+		Object o = null;
 		Integer ID = s.getID();
 		String first = s.getFirstName();
 		String last = s.getLastName();
@@ -117,6 +131,7 @@ public class StudentTableModel extends AbstractTableModel {
 			break;
 		}
 		return o;
+		
 	}
 
 }

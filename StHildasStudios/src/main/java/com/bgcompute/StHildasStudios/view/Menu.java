@@ -1,6 +1,8 @@
 package com.bgcompute.StHildasStudios.view;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -11,6 +13,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
 
 import com.bgcompute.StHildasStudios.controller.DClassController;
@@ -68,11 +72,32 @@ public class Menu implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if ("ageSortDescSchool".equals(e.getActionCommand())) { //new
 			schoolAgeSortDescFrame();
-		} else { //quit
+		}
+		if("ageSortAscSchool".equals(e.getActionCommand())){
+			schoolAgeSortAscFrame();
+		}
+		else { //quit
 			quit();
 		}
 	}
 	
+	private void schoolAgeSortAscFrame() {
+		JInternalFrame iFrame = new JInternalFrame("School, age sorted (asc)");
+		 iFrame.setResizable(true);
+         iFrame.setClosable(true);
+         iFrame.setIconifiable(true);
+         iFrame.setSize(new Dimension(600, 300));
+         iFrame.setLocation(0, 0);
+         iFrame.getContentPane().add( dispStudents.ageSortSchoolAsc() );
+         iFrame.setMaximizable(true);
+         iFrame.setResizable(true);
+         iFrame.setVisible(true);
+         desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
+	}
+
 	protected void quit() {
         System.exit(0);
     }
@@ -82,12 +107,17 @@ public class Menu implements ActionListener {
          iFrame.setResizable(true);
          iFrame.setClosable(true);
          iFrame.setIconifiable(true);
-         iFrame.setSize(new Dimension(300, 300));
+         //LayoutManager manager = new GridLayout(0,1);
+		iFrame.setSize(new Dimension(600, 300));
+         //iFrame.setLayout(manager );
          iFrame.setLocation(0, 0);
 
          //iFrame.getContentPane().setLayout(new BorderLayout());
+         //JTable table = dispStudents.ageSortSchoolDesc();
+         //JScrollPane scrollPane = new JScrollPane(table);
          iFrame.getContentPane().add( dispStudents.ageSortSchoolDesc() );
-
+         iFrame.setMaximizable(true);
+         iFrame.setResizable(true);
          iFrame.setVisible(true);
          desk.add(iFrame);
 		try {
@@ -113,6 +143,8 @@ public class Menu implements ActionListener {
 		ageAsc.setMnemonic(KeyEvent.VK_A);
 		ageAsc.setAccelerator(KeyStroke.getKeyStroke(
 				KeyEvent.VK_A, ActionEvent.ALT_MASK));
+		ageAsc.setActionCommand("ageSortAscSchool");
+		ageAsc.addActionListener(this);
 		viewStudents.add(ageAsc);        
 
 		school.add(viewStudents);

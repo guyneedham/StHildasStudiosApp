@@ -32,7 +32,7 @@ public class MySQLDatabaseTest {
 	@Test
 	public void testDBGetTermDetailsGetsCorrectNumberOfTerms() {
 		ArrayList<Term> terms = db.getTermDetails();
-		Term t = terms.get(0);
+		//Term t = terms.get(0);
 		assertEquals(terms.size(),db.countTerm());
 	}
 	
@@ -62,20 +62,22 @@ public class MySQLDatabaseTest {
 	@Test
 	public void testDBnewStudentMakesANewStudent(){
 		int startSize = db.countStudents();
+		for(int i =1;i<101;i++){
 		Student testStudent = sf.newStudent();
-		testStudent.setFirstName("first");
-		testStudent.setLastName("last");
-		testStudent.setAddr1("line1");
-		testStudent.setAddr2("line2");
-		testStudent.setAddr3("line3");
+		testStudent.setFirstName("first"+i);
+		testStudent.setLastName("last"+i);
+		testStudent.setAddr1("line1"+i);
+		testStudent.setAddr2("line2"+i);
+		testStudent.setAddr3("line3"+1);
 		testStudent.setPostcode("postcode");
 		testStudent.setDOB(Date.valueOf("2012-01-01"));
 		testStudent.setRAD(1234);
-		testStudent.setEmail("email");
-		testStudent.setPhone(2345);
-		testStudent.setMobile(5678);
-		testStudent.setLocation("Teeside");
+		testStudent.setEmail("email"+i);
+		testStudent.setPhone(2345+i);
+		testStudent.setMobile(5678+i);
+		testStudent.setLocation("location"+i);
 		db.newStudent(testStudent);
+		}
 		assertEquals(startSize+1,db.countStudents());
 	}
 

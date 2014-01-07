@@ -1,5 +1,6 @@
 package com.bgcompute.StHildasStudios.view;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -28,18 +29,21 @@ public class DisplayStudents {
 		this.tc = tc;
 	}
 	
-	public JPanel ageSortSchoolDesc(){
-		JPanel gui = new JPanel();
+	public JScrollPane ageSortSchoolDesc(){
+		JScrollPane gui = new JScrollPane();
 		
 		ArrayList<Student> students = shc.getAllStudentsAgeDesc();
 		JTable table = getTable(students);
-		
-		JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(500, 150));
-        gui.add(scrollPane);
-        gui.setOpaque(true);
-		
-        return gui;
+		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        table.setFillsViewportHeight(true);
+		JScrollPane scrollPane = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        //scrollPane.setPreferredSize(new Dimension(500, 150));
+        table.setFillsViewportHeight(true);
+
+        //gui.add(scrollPane);
+        //gui.setOpaque(true);
+		//
+        return scrollPane;
 	}
 	
 	private JTable getTable(ArrayList<Student> students){
@@ -49,6 +53,16 @@ public class DisplayStudents {
 		
 		JTable jtable = new JTable(new StudentTableModel(title, students));
 		return jtable;
+	}
+
+	public JScrollPane ageSortSchoolAsc() {
+		ArrayList<Student> students = shc.getAllStudentsAgeAsc();
+		JTable table = getTable(students);
+		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        table.setFillsViewportHeight(true);
+		JScrollPane scrollPane = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        table.setFillsViewportHeight(true);
+        return scrollPane;
 	}
 	
 }
