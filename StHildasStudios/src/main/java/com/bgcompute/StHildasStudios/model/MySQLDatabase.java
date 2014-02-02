@@ -97,7 +97,7 @@ public class MySQLDatabase implements Storage {
 		logger.debug("Making new student {} {}.",student.getFirstName(),student.getLastName());
 		Connection conn = connPool.checkOut();
 		try {
-			CallableStatement stmt = conn.prepareCall("{call newStudent(?,?,?,?,?,?,?,?,?,?,?,?)}");
+			CallableStatement stmt = conn.prepareCall("{call newStudent(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
 			stmt.setString(1,student.getFirstName());
 			stmt.setString(2, student.getLastName());
 			stmt.setString(3, student.getAddr1());
@@ -110,6 +110,7 @@ public class MySQLDatabase implements Storage {
 			stmt.setInt(10, student.getPhone());
 			stmt.setInt(11, student.getMobile());
 			stmt.setString(12, student.getLocation());
+			stmt.setString(13, student.getComment());
 			stmt.executeUpdate();
 			
 		} catch (SQLException e) {

@@ -30,6 +30,7 @@ public class Menu implements ActionListener {
 	private TermController tc;
 	private DClassController dc;
 	private DisplayStudents dispStudents;
+	private NewStudentView newStudentView;
 
 	public Menu(JDesktopPane d, SchoolController shc, StudentController stc, TermController tc, DClassController dc){
 		this.desk = d;
@@ -38,6 +39,7 @@ public class Menu implements ActionListener {
 		this.tc = tc;
 		this.dc = dc;
 		dispStudents = new DisplayStudents(shc, dc, stc, tc);
+		newStudentView = new NewStudentView(stc);
 	}
 
 	public JMenuBar getMenu(){
@@ -75,12 +77,31 @@ public class Menu implements ActionListener {
 		}
 		if("ageSortAscSchool".equals(e.getActionCommand())){
 			schoolAgeSortAscFrame();
+		} if ("newStudent".equals(e.getActionCommand())){
+			newStudent();
 		}
 		else { //quit
 			quit();
 		}
 	}
 	
+	private void newStudent() {
+		JInternalFrame iFrame = new JInternalFrame("New Student");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(600, 300));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( newStudentView.newStudent() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
+	}
+
 	private void schoolAgeSortAscFrame() {
 		JInternalFrame iFrame = new JInternalFrame("School, age sorted (asc)");
 		 iFrame.setResizable(true);
@@ -151,6 +172,8 @@ public class Menu implements ActionListener {
 
 		JMenuItem newStudent = new JMenuItem("New Student");
 		newStudent.setToolTipText("Add a student to the school");
+		newStudent.setActionCommand("newStudent");
+		newStudent.addActionListener(this);
 		school.add(newStudent);
 		
 		JMenuItem modStudent = new JMenuItem("Modify Student");

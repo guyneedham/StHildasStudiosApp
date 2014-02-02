@@ -46,46 +46,56 @@ public class StudentTableModel extends AbstractTableModel {
 		String first = s.getFirstName();
 		String last = s.getLastName();
 		String addr1 = s.getAddr1();
+		String addr2 = s.getAddr2();
+		String addr3 = s.getAddr3();
+		String postcode = s.getPostcode();
+		Date DOB = s.getDOB();
+		Integer RAD = s.getRAD();
+		String email = s.getEmail();
+		Integer phone = s.getPhone();
+		Integer mob = s.getMobile();
+		String location = s.getLocation();
+		String comment = s.getComment();
+		/*
 		if(addr1 == null || addr1.isEmpty()){
 			addr1 = "";
 		}
-		String addr2 = s.getAddr2();
+		
 		if(addr2 == null || addr2.isEmpty()){
 			addr2 = "";
 		}
-		String addr3 = s.getAddr3();
+		
 		if(addr3 == null || addr3.isEmpty()){
 			addr3 = "";
 		}
-		String postcode = s.getPostcode();
+		
 		if(postcode == null || postcode.isEmpty()){
 			postcode = "";
 		}
-		Date DOB = s.getDOB();
-		Integer RAD = s.getRAD();
+		
 		if(RAD == null){
 			RAD = 0;
 		}
-		String email = s.getEmail();
+		
 		if(email == null || email.isEmpty()){
 			email = "";
 		}
-		Integer phone = s.getPhone();
+		
 		if(phone == null){
 			phone = 0;
 		}
-		Integer mob = s.getMobile();
+		
 		if(mob == null){
 			mob = 0;
 		}
-		String location = s.getLocation();
+		
 		if(location == null || location.isEmpty()){
 			location = "";
 		}
-		String comment = s.getComment();
+		
 		if(comment == null || comment.isEmpty()){
 			comment = "";
-		}
+		}*/
 		switch(column){
 		case 0:
 			o = ID;

@@ -13,10 +13,10 @@ public class Student {
 	private String addressLine3;
 	private String postcode;
 	private Date DOB;
-	private int RAD;
+	private Integer RAD;
 	private String email;
-	private int phone;
-	private int mobile;
+	private Integer phone;
+	private Integer mobile;
 	private String location;
 	private String comment;
 	

@@ -1,5 +1,6 @@
 package com.bgcompute.StHildasStudios.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import com.bgcompute.StHildasStudios.model.DClass;
@@ -20,7 +21,7 @@ public class StudentController {
 	}
 	
 	public void newStudent(String first, String last, String addr1, String addr2, String addr3, String postcode, 
-			String email, int phone, int mobile, String location, int RAD
+			String email, int phone, int mobile, String location, int RAD, String comment, Date DOB
 			){
 		Student student = sf.newStudent();
 		student.setFirstName(first);
@@ -34,7 +35,139 @@ public class StudentController {
 		student.setMobile(mobile);
 		student.setRAD(RAD);
 		student.setLocation(location);
-		db.newStudent(student);
+		student.setComment(comment);
+		student.setDOB(DOB);
+		db.newStudent(studentClean(student));
+	}
+	
+	private Student studentClean(Student in){
+		Student out = sf.newStudent();
+		
+		for(int i=1;i<14;i++){
+			switch(i){
+			//String first, String last, String addr1, String addr2, String addr3, String postcode, 
+			//String email, int phone, int mobile, String location, int RAD, String comment, Date DOB
+				case 1:
+					String first = in.getFirstName();
+					if(first == null||first.isEmpty()||first.length() == 0){
+						String firstEmpty = "";
+						out.setFirstName(firstEmpty);
+					} else {
+						out.setFirstName(first);
+					}
+					break;
+				case 2:
+					String last = in.getLastName();
+					if(last == null||last.isEmpty()||last.length() == 0){
+						String lastEmpty = "";
+						out.setLastName(lastEmpty);
+					} else {
+						out.setLastName(last);
+					}
+					break;
+				case 3:
+					String addr1 = in.getAddr1();
+					if(addr1 == null||addr1.isEmpty()||addr1.length() == 0){
+						String addr1Empty = "";
+						out.setAddr1(addr1Empty);
+					} else {
+						out.setAddr1(addr1);
+					}
+					break;
+				case 4:
+					String addr2 = in.getAddr2();
+					if(addr2 == null||addr2.isEmpty()||addr2.length() == 0){
+						String addr2Empty = "";
+						out.setAddr2(addr2Empty);
+					} else {
+						out.setAddr2(addr2);
+					}
+					break;
+				case 5:
+					String addr3 = in.getAddr3();
+					if(addr3 == null||addr3.isEmpty()||addr3.length() == 0){
+						String addr3Empty = "";
+						out.setAddr3(addr3Empty);
+					} else {
+						out.setAddr3(addr3);
+					}
+					break;
+				case 6:
+					String postcode = in.getPostcode();
+					if(postcode == null||postcode.isEmpty()||postcode.length() == 0){
+						String postcodeEmpty = "";
+						out.setPostcode(postcodeEmpty);
+					} else {
+						out.setPostcode(postcode);
+					}
+					break;
+				case 7:
+					String email = in.getEmail();
+					if(email == null||email.isEmpty()||email.length() == 0){
+						String emailEmpty = "";
+						out.setEmail(emailEmpty);
+					} else {
+						out.setEmail(email);
+					}
+					break;
+				case 8:
+					Integer phone = in.getPhone();
+					if(phone == null||phone.equals(null) ){
+						Integer phoneEmpty = 0;
+						out.setPhone(phoneEmpty);
+					} else {
+						out.setPhone(phone);
+					}
+					break;
+				case 9:
+					Integer mobile = in.getMobile();
+					if(mobile == null||mobile.equals(null) ){
+						Integer phoneEmpty = 0;
+						out.setMobile(phoneEmpty);
+					} else {
+						out.setMobile(mobile);
+					}
+					break;
+				case 10:
+					String location = in.getLocation();
+					if(location == null||location.isEmpty()||location.length() == 0){
+						String locationEmpty = "";
+						out.setLocation(locationEmpty);
+					} else {
+						out.setLocation(location);
+					}
+					break;
+				case 11:
+					Integer RAD = in.getRAD();
+					if(RAD == null||RAD.equals(null) ){
+						Integer RADEmpty = 0;
+						out.setRAD(RADEmpty);
+					} else {
+						out.setRAD(RAD);
+					}
+					break;
+				case 12:
+					String comment = in.getComment();
+					if(comment == null||comment.isEmpty()||comment.length() == 0){
+						String commentEmpty = "";
+						out.setComment(commentEmpty);
+					} else {
+						out.setComment(comment);
+					}
+					break;
+				case 13:
+					Date DOB = in.getDOB();
+					if(DOB.equals(null)||DOB.toString().isEmpty()||DOB.toString() == null){
+						Date emptyDOB = Date.valueOf("1900-01-01");
+						out.setDOB(emptyDOB);
+					} else {
+						out.setDOB(DOB);
+					}
+					break;
+			}
+		}
+		
+		return out;
 	}
 	
 	public Student getStudentFromID(int ID){

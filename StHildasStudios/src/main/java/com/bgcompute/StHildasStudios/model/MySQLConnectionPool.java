@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MySQLConnectionPool {
+public class MySQLConnectionPool extends ConnectionPool {
 
 	public static MySQLConnectionPool instance;
 	public static List<Connection> connList;
