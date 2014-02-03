@@ -1,35 +1,28 @@
 package com.bgcompute.StHildasStudios.view;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.bgcompute.StHildasStudios.controller.StudentController;
+import com.bgcompute.StHildasStudios.model.Student;
 
-public class NewStudentView  {
+import javax.swing.JLabel;
+
+public class ModifyStudentView {
 
 	private StudentController stc;
-	private String firstName;
-	private String lastName;
-	private String addressLine1;
-	private String addressLine2;
-	private String addressLine3;
-	private String postcode;
-	private Date DOB;
-	private String RAD;
-	private String email;
-	private String phone;
-	private String mobile;
-	private String location;
-	private String comment;
-
+	
+	private JTextField inputBox;
+	private int ID;
+	private Student in;
+	private JPanel panel;
+	
 	private JTextField first;
 	private JTextField last;
 	private JTextField addr1;
@@ -43,15 +36,46 @@ public class NewStudentView  {
 	private JTextField mob;
 	private JTextField locationIn;
 	private JTextField commentIn;
-
-	public NewStudentView(StudentController stc) {
+	
+	private String firstName;
+	private String lastName;
+	private String addressLine1;
+	private String addressLine2;
+	private String addressLine3;
+	private String postcode;
+	private Date DOB;
+	private String RAD;
+	private String email;
+	private String phone;
+	private String mobile;
+	private String location;
+	private String comment;
+	
+	public ModifyStudentView(StudentController stc){
 		this.stc = stc;
 	}
-
-	public JPanel newStudent() {
-		JPanel panel = new JPanel();
+	
+	public JPanel modStudent() {
+		panel = new JPanel();
+		inputBox = new JTextField();
+		inputBox.setText("Input the student ID here.");
+		inputBox.setVisible(true);
+		inputBox.setBounds(150,425,200,30);
+		panel.add(inputBox);
 		
+		JButton getStudent = new JButton();
+		getStudent.setText("Get Student");
+		getStudent.setBounds(425, 425, 100, 30);
 
+		getStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				ID = Integer.parseInt(inputBox.getText());
+				in = stc.getStudentFromID(ID);
+				addStudentDetails();
+			}
+		});
+		panel.add(getStudent);
+		
 		JLabel firstLabel = new JLabel();
 		firstLabel.setText("First Name");
 		firstLabel.setBounds(5, 10, 100, 30);
@@ -197,76 +221,91 @@ public class NewStudentView  {
 		commentIn.setBounds(110,210,415,30);
 		panel.add(commentIn);
 
-		panel.setLayout(null);
-		panel.setToolTipText("Create a new student");
-
-		JButton submitButton = new JButton("Submit");
-		submitButton.setBounds(425, 245, 100, 30);
-
-		submitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				/*if(comment == null || comment.isEmpty()){
-	        		   comment = "";
-	        	   }*/
-				firstName = first.getText();
-				lastName = last.getText();
-				addressLine1 = addr1.getText();
-				addressLine2 = addr2.getText();
-				addressLine3 = addr3.getText();
-				postcode = postcodeIn.getText();
-				email = emailIn.getText();
-				phone = tel.getText();				
-				mobile = mob.getText();
-				location = locationIn.getText();
-				comment = commentIn.getText();
-				if(dob.getText().equals("")){
-					DOB = Date.valueOf("1900-01-01");
-				} else {
-					DOB = Date.valueOf(dob.getText());
-				}
-				RAD = rad.getText();
-				
-				stc.newStudent(firstName, lastName, addressLine1, addressLine2, addressLine3, postcode, email, phone, mobile, location, RAD, comment, DOB);;
-			}
-		});
+		panel.setLayout(null);		
 		
-		
-		panel.add(submitButton);
-
 		panel.validate();
+		
 		return panel;
 	}
-/*
-	public void actionPerformed(ActionEvent e) {
-		if("first".equals(e.getActionCommand())){
-			this.firstName = first.getText();
-		} else if("last".equals(e.getActionCommand())) {
-			this.lastName = last.getText();
-		} else if("addr1".equals(e.getActionCommand())){
-			this.addressLine1 = addr1.getText();
-		} else if("addr2".equals(e.getActionCommand())){
-			this.addressLine2 = addr2.getText();			
-		} else if("addr3".equals(e.getActionCommand())){
-			this.addressLine3 = addr3.getText();
-		} else if("postcodeIn".equals(e.getActionCommand())){
-			this.postcode = postcodeIn.getText();
-		} else if("dob".equals(e.getActionCommand())){
-			this.DOB = Date.valueOf(dob.getText());
-		} else if("rad".equals(e.getActionCommand())){
-			this.RAD = Integer.parseInt(rad.getText());
-		} else if("emailIn".equals(e.getActionCommand())){
-			this.email = emailIn.getText();
-		} else if("tel".equals(e.getActionCommand())){
-			this.phone = Integer.parseInt(tel.getText());
-		} else if("mob".equals(e.getActionCommand())){
-			this.mobile = Integer.parseInt(mob.getText());
-		} else if("locationIn".equals(e.getActionCommand())){
-			this.location = locationIn.getText();
-		} else if ("commentIn".equals(e.getActionCommand())){
-			this.comment = commentIn.getText();
-		}
 
+	public void addStudentDetails(){
+		//get student attributes
+		first.setText(in.getFirstName());
+		last.setText(in.getLastName());
+		addr1.setText(in.getAddr1());
+		addr2.setText(in.getAddr2());
+		addr3.setText(in.getAddr3());
+		postcodeIn.setText(in.getPostcode());
+		dob.setText(String.valueOf(in.getDOB()));
+		rad.setText(in.getRAD());
+		emailIn.setText(in.getEmail());
+		tel.setText(in.getPhone());
+		mob.setText(in.getMobile());
+		locationIn.setText(in.getLocation());
+		commentIn.setText(in.getComment());
+		
+		JButton updateStudent = new JButton();
+		updateStudent.setText("Submit Changes");
+		updateStudent.setBounds(375, 475, 150, 30);
+
+		updateStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				Student out = new Student();
+				
+				out.setID(ID);
+				
+				firstName = first.getText();
+				out.setFirstName(firstName);
+				
+				lastName = last.getText();
+				out.setLastName(lastName);
+				
+				addressLine1 = addr1.getText();
+				out.setAddr1(addressLine1);
+				
+				addressLine2 = addr2.getText();
+				out.setAddr2(addressLine2);
+				
+				addressLine3 = addr3.getText();
+				out.setAddr3(addressLine3);
+				
+				postcode = postcodeIn.getText();
+				out.setPostcode(postcode);
+				
+				email = emailIn.getText();
+				out.setEmail(email);
+				
+				phone = tel.getText();
+				out.setPhone(phone);				
+				
+				mobile = mob.getText();
+				out.setMobile(mobile);
+				
+				location = locationIn.getText();
+				out.setLocation(location);
+				
+				comment = commentIn.getText();
+				out.setLocation(comment);
+				
+				if(dob.getText().equals("")){
+					DOB = Date.valueOf("1900-01-01");
+					out.setDOB(DOB);
+				} else {
+					DOB = Date.valueOf(dob.getText());
+					out.setDOB(DOB);
+				}
+				
+				RAD = rad.getText();
+				out.setRAD(RAD);				
+				
+				stc.modifyStudent(out);
+			}
+		});
+		panel.add(updateStudent);
+		
+		//button to update student with changed attributes
+		panel.revalidate();
+		panel.repaint();
 	}
-*/
-
+	
 }

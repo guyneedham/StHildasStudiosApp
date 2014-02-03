@@ -21,7 +21,7 @@ public class StudentController {
 	}
 	
 	public void newStudent(String first, String last, String addr1, String addr2, String addr3, String postcode, 
-			String email, int phone, int mobile, String location, int RAD, String comment, Date DOB
+			String email, String phone, String mobile, String location, String RAD, String comment, Date DOB
 			){
 		Student student = sf.newStudent();
 		student.setFirstName(first);
@@ -42,7 +42,7 @@ public class StudentController {
 	
 	private Student studentClean(Student in){
 		Student out = sf.newStudent();
-		
+		out.setID(in.getID());
 		for(int i=1;i<14;i++){
 			switch(i){
 			//String first, String last, String addr1, String addr2, String addr3, String postcode, 
@@ -111,18 +111,18 @@ public class StudentController {
 					}
 					break;
 				case 8:
-					Integer phone = in.getPhone();
-					if(phone == null||phone.equals(null) ){
-						Integer phoneEmpty = 0;
+					String phone = in.getPhone();
+					if(phone == null||phone.equals(null)||phone.isEmpty() ){
+						String phoneEmpty = "";
 						out.setPhone(phoneEmpty);
 					} else {
 						out.setPhone(phone);
 					}
 					break;
 				case 9:
-					Integer mobile = in.getMobile();
-					if(mobile == null||mobile.equals(null) ){
-						Integer phoneEmpty = 0;
+					String mobile = in.getMobile();
+					if(mobile == null||mobile.equals(null)||mobile.isEmpty() ){
+						String phoneEmpty = "";
 						out.setMobile(phoneEmpty);
 					} else {
 						out.setMobile(mobile);
@@ -138,9 +138,9 @@ public class StudentController {
 					}
 					break;
 				case 11:
-					Integer RAD = in.getRAD();
-					if(RAD == null||RAD.equals(null) ){
-						Integer RADEmpty = 0;
+					String RAD = in.getRAD();
+					if(RAD == null||RAD.equals(null)||RAD.isEmpty() ){
+						String RADEmpty = "";
 						out.setRAD(RADEmpty);
 					} else {
 						out.setRAD(RAD);
@@ -157,7 +157,7 @@ public class StudentController {
 					break;
 				case 13:
 					Date DOB = in.getDOB();
-					if(DOB.equals(null)||DOB.toString().isEmpty()||DOB.toString() == null){
+					if(DOB == null||DOB.equals(null)||DOB.toString().isEmpty()||DOB.toString() == null){
 						Date emptyDOB = Date.valueOf("1900-01-01");
 						out.setDOB(emptyDOB);
 					} else {
@@ -168,6 +168,10 @@ public class StudentController {
 		}
 		
 		return out;
+	}
+	
+	public void modifyStudent(Student in){
+		db.modifyStudent(studentClean(in));
 	}
 	
 	public Student getStudentFromID(int ID){
@@ -184,6 +188,10 @@ public class StudentController {
 	
 	public ArrayList<DClass> getClassesForStudent(Student student){
 		return db.getClassesForStudent(student.getID());
+	}
+	
+	public void deleteStudent(int ID){
+		db.removeStudentFromSchool(ID);
 	}
 
 }

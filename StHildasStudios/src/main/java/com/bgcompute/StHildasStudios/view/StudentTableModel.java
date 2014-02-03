@@ -50,10 +50,10 @@ public class StudentTableModel extends AbstractTableModel {
 		String addr3 = s.getAddr3();
 		String postcode = s.getPostcode();
 		Date DOB = s.getDOB();
-		Integer RAD = s.getRAD();
+		String RAD = s.getRAD();
 		String email = s.getEmail();
-		Integer phone = s.getPhone();
-		Integer mob = s.getMobile();
+		String phone = s.getPhone();
+		String mob = s.getMobile();
 		String location = s.getLocation();
 		String comment = s.getComment();
 		/*

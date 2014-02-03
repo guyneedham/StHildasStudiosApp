@@ -40,7 +40,7 @@ public class MySQLDatabaseTest {
 	public void testDBnewTermMakesANewTerm(){
 		int startSize = db.countTerm();
 		Term testTerm = tf.newTerm();
-		testTerm.setStartDate(Date.valueOf("2014-01-06"));
+		testTerm.setStartDate(Date.valueOf("2014-06-01"));
 		testTerm.setEndDate(Date.valueOf("2013-04-01"));
 		testTerm.setTitle("TestTerm2");
 		db.newTerm(testTerm);
@@ -71,10 +71,10 @@ public class MySQLDatabaseTest {
 		testStudent.setAddr3("line3"+1);
 		testStudent.setPostcode("postcode");
 		testStudent.setDOB(Date.valueOf("2012-01-01"));
-		testStudent.setRAD(1234);
+		testStudent.setRAD("1234");
 		testStudent.setEmail("email"+i);
-		testStudent.setPhone(2345+i);
-		testStudent.setMobile(5678+i);
+		testStudent.setPhone("2345"+i);
+		testStudent.setMobile("5678"+i);
 		testStudent.setLocation("location"+i);
 		db.newStudent(testStudent);
 		}

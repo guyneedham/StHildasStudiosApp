@@ -105,10 +105,10 @@ public class MySQLDatabase implements Storage {
 			stmt.setString(5, student.getAddr3());
 			stmt.setString(6, student.getPostcode());
 			stmt.setDate(7, student.getDOB());
-			stmt.setInt(8, student.getRAD());
+			stmt.setString(8, student.getRAD());
 			stmt.setString(9, student.getEmail());
-			stmt.setInt(10, student.getPhone());
-			stmt.setInt(11, student.getMobile());
+			stmt.setString(10, student.getPhone());
+			stmt.setString(11, student.getMobile());
 			stmt.setString(12, student.getLocation());
 			stmt.setString(13, student.getComment());
 			stmt.executeUpdate();
@@ -122,6 +122,35 @@ public class MySQLDatabase implements Storage {
 		
 	}
 
+	public void modifyStudent(Student student){
+		logger.debug("Modifying student {} {}.",student.getFirstName(),student.getLastName());
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call updateStudent(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+			stmt.setInt(1, student.getID());
+			stmt.setString(2,student.getFirstName());
+			stmt.setString(3, student.getLastName());
+			stmt.setString(4, student.getAddr1());
+			stmt.setString(5, student.getAddr2());
+			stmt.setString(6, student.getAddr3());
+			stmt.setString(7, student.getPostcode());
+			stmt.setDate(8, student.getDOB());
+			stmt.setString(9, student.getRAD());
+			stmt.setString(10, student.getEmail());
+			stmt.setString(11, student.getPhone());
+			stmt.setString(12, student.getMobile());
+			stmt.setString(13, student.getLocation());
+			stmt.setString(14, student.getComment());
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception updating a student.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+	}
+	
 	public void addComment(int ID, String comment) {
 		logger.debug("Adding comment {} to student {}.",comment,ID);
 		Connection conn = connPool.checkOut();
@@ -247,10 +276,10 @@ public class MySQLDatabase implements Storage {
 				student.setAddr3(rs.getString(5));
 				student.setPostcode(rs.getString(6));
 				student.setDOB(rs.getDate(7));
-				student.setRAD(rs.getInt(8));
+				student.setRAD(rs.getString(8));
 				student.setEmail(rs.getString(9));
-				student.setPhone(rs.getInt(10));
-				student.setMobile(rs.getInt(11));
+				student.setPhone(rs.getString(10));
+				student.setMobile(rs.getString(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
 				student.setID(rs.getInt(14));
@@ -282,10 +311,10 @@ public class MySQLDatabase implements Storage {
 				student.setAddr3(rs.getString(5));
 				student.setPostcode(rs.getString(6));
 				student.setDOB(rs.getDate(7));
-				student.setRAD(rs.getInt(8));
+				student.setRAD(rs.getString(8));
 				student.setEmail(rs.getString(9));
-				student.setPhone(rs.getInt(10));
-				student.setMobile(rs.getInt(11));
+				student.setPhone(rs.getString(10));
+				student.setMobile(rs.getString(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
 				student.setID(rs.getInt(14));
@@ -316,10 +345,10 @@ public class MySQLDatabase implements Storage {
 				student.setAddr3(rs.getString(6));
 				student.setPostcode(rs.getString(7));
 				student.setDOB(rs.getDate(8));
-				student.setRAD(rs.getInt(9));
+				student.setRAD(rs.getString(9));
 				student.setEmail(rs.getString(10));
-				student.setPhone(rs.getInt(11));
-				student.setMobile(rs.getInt(12));
+				student.setPhone(rs.getString(11));
+				student.setMobile(rs.getString(12));
 				student.setLocation(rs.getString(13));
 				student.setComment(rs.getString(14));
 				student.setID(rs.getInt(1));
@@ -350,10 +379,10 @@ public class MySQLDatabase implements Storage {
 				student.setAddr3(rs.getString(5));
 				student.setPostcode(rs.getString(6));
 				student.setDOB(rs.getDate(7));
-				student.setRAD(rs.getInt(8));
+				student.setRAD(rs.getString(8));
 				student.setEmail(rs.getString(9));
-				student.setPhone(rs.getInt(10));
-				student.setMobile(rs.getInt(11));
+				student.setPhone(rs.getString(10));
+				student.setMobile(rs.getString(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
 				student.setID(rs.getInt(14));
@@ -476,10 +505,10 @@ public class MySQLDatabase implements Storage {
 				student.setAddr3(rs.getString(5));
 				student.setPostcode(rs.getString(6));
 				student.setDOB(rs.getDate(7));
-				student.setRAD(rs.getInt(8));
+				student.setRAD(rs.getString(8));
 				student.setEmail(rs.getString(9));
-				student.setPhone(rs.getInt(10));
-				student.setMobile(rs.getInt(11));
+				student.setPhone(rs.getString(10));
+				student.setMobile(rs.getString(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
 				student.setID(rs.getInt(14));
@@ -510,10 +539,10 @@ public class MySQLDatabase implements Storage {
 				student.setAddr3(rs.getString(5));
 				student.setPostcode(rs.getString(6));
 				student.setDOB(rs.getDate(7));
-				student.setRAD(rs.getInt(8));
+				student.setRAD(rs.getString(8));
 				student.setEmail(rs.getString(9));
-				student.setPhone(rs.getInt(10));
-				student.setMobile(rs.getInt(11));
+				student.setPhone(rs.getString(10));
+				student.setMobile(rs.getString(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
 				student.setID(rs.getInt(14));
@@ -673,10 +702,10 @@ public class MySQLDatabase implements Storage {
 				student.setAddr3(rs.getString(5));
 				student.setPostcode(rs.getString(6));
 				student.setDOB(rs.getDate(7));
-				student.setRAD(rs.getInt(8));
+				student.setRAD(rs.getString(8));
 				student.setEmail(rs.getString(9));
-				student.setPhone(rs.getInt(10));
-				student.setMobile(rs.getInt(11));
+				student.setPhone(rs.getString(10));
+				student.setMobile(rs.getString(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
 				student.setID(rs.getInt(14));
@@ -735,10 +764,10 @@ public class MySQLDatabase implements Storage {
 				student.setAddr3(rs.getString(5));
 				student.setPostcode(rs.getString(6));
 				student.setDOB(rs.getDate(7));
-				student.setRAD(rs.getInt(8));
+				student.setRAD(rs.getString(8));
 				student.setEmail(rs.getString(9));
-				student.setPhone(rs.getInt(10));
-				student.setMobile(rs.getInt(11));
+				student.setPhone(rs.getString(10));
+				student.setMobile(rs.getString(11));
 				student.setLocation(rs.getString(12));
 				student.setComment(rs.getString(13));
 				student.setID(rs.getInt(14));

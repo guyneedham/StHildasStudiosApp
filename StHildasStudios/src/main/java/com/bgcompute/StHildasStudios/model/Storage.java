@@ -40,6 +40,6 @@ public interface Storage {
 	public void deleteStudentFromTerm(int id, int id2);
 	public void addStudentToTerm(int id, int id2);
 	public ArrayList<DClass> getClassesForStudent(int id);
-	
+	public void modifyStudent(Student student);
 	
 }

@@ -13,10 +13,10 @@ public class Student {
 	private String addressLine3;
 	private String postcode;
 	private Date DOB;
-	private Integer RAD;
+	private String RAD;
 	private String email;
-	private Integer phone;
-	private Integer mobile;
+	private String phone;
+	private String mobile;
 	private String location;
 	private String comment;
 	
@@ -84,11 +84,11 @@ public class Student {
 		this.DOB = DOB;
 	}
 	
-	public int getRAD(){
+	public String getRAD(){
 		return this.RAD;
 	}
 	
-	public void setRAD(int RAD){
+	public void setRAD(String RAD){
 		this.RAD = RAD;
 	}
 	
@@ -100,19 +100,19 @@ public class Student {
 		this.email = email;
 	}
 	
-	public int getPhone(){
+	public String getPhone(){
 		return this.phone;
 	}
 	
-	public void setPhone(int phone){
+	public void setPhone(String phone){
 		this.phone = phone;
 	}
 	
-	public int getMobile(){
+	public String getMobile(){
 		return this.mobile;
 	}
 	
-	public void setMobile(int mobile){
+	public void setMobile(String mobile){
 		this.mobile = mobile;
 	}
 	

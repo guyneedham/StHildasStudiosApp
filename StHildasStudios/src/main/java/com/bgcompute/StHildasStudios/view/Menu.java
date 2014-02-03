@@ -31,6 +31,8 @@ public class Menu implements ActionListener {
 	private DClassController dc;
 	private DisplayStudents dispStudents;
 	private NewStudentView newStudentView;
+	private ModifyStudentView modifyStudentView;
+	private DeleteStudent deleteStudent;
 
 	public Menu(JDesktopPane d, SchoolController shc, StudentController stc, TermController tc, DClassController dc){
 		this.desk = d;
@@ -40,6 +42,8 @@ public class Menu implements ActionListener {
 		this.dc = dc;
 		dispStudents = new DisplayStudents(shc, dc, stc, tc);
 		newStudentView = new NewStudentView(stc);
+		modifyStudentView = new ModifyStudentView(stc);
+		deleteStudent = new DeleteStudent(stc);
 	}
 
 	public JMenuBar getMenu(){
@@ -72,25 +76,65 @@ public class Menu implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ("ageSortDescSchool".equals(e.getActionCommand())) { //new
+		if ("ageSortDescSchool".equals(e.getActionCommand())) {
 			schoolAgeSortDescFrame();
 		}
 		if("ageSortAscSchool".equals(e.getActionCommand())){
 			schoolAgeSortAscFrame();
-		} if ("newStudent".equals(e.getActionCommand())){
+		}
+		if ("newStudent".equals(e.getActionCommand())){
 			newStudent();
 		}
-		else { //quit
-			quit();
+		if ("modStudent".equals(e.getActionCommand())){
+			modStudent();
+		}
+		if("delStudent".equals(e.getActionCommand())){
+			delStudent();
 		}
 	}
 	
+	private void delStudent() {
+		JInternalFrame iFrame = new JInternalFrame("Delete Student");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(400, 200));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( deleteStudent.delStudent() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
+		
+	}
+
+	private void modStudent() {
+		JInternalFrame iFrame = new JInternalFrame("Modify Student");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(600, 600));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( modifyStudentView.modStudent() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
+		
+	}
+
 	private void newStudent() {
 		JInternalFrame iFrame = new JInternalFrame("New Student");
 		iFrame.setResizable(true);
         iFrame.setClosable(true);
         iFrame.setIconifiable(true);
-        iFrame.setSize(new Dimension(600, 300));
+        iFrame.setSize(new Dimension(600, 600));
         iFrame.setLocation(0, 0);
         iFrame.getContentPane().add( newStudentView.newStudent() );
         iFrame.setMaximizable(true);
@@ -116,7 +160,9 @@ public class Menu implements ActionListener {
          desk.add(iFrame);
 		try {
 			iFrame.setSelected(true);
-		} catch (java.beans.PropertyVetoException e) {}
+		} catch (java.beans.PropertyVetoException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void quit() {
@@ -177,10 +223,15 @@ public class Menu implements ActionListener {
 		school.add(newStudent);
 		
 		JMenuItem modStudent = new JMenuItem("Modify Student");
+		modStudent.setToolTipText("Modify an existing student");
+		modStudent.setActionCommand("modStudent");
+		modStudent.addActionListener(this);
 		school.add(modStudent);
 
 		JMenuItem delStudent = new JMenuItem("Delete Student");
 		delStudent.setToolTipText("Delete a student from the school");
+		delStudent.setActionCommand("delStudent");
+		delStudent.addActionListener(this);
 		school.add(delStudent);
 
 		return school;

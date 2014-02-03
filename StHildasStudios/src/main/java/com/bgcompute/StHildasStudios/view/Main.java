@@ -90,7 +90,7 @@ public class Main {
 		JFrame frame = new JFrame("St Hilda's Studio Student Management");
 		
 		frame.setTitle("St Hilda's Studio Student Management");
-        frame.setSize(500, 500);
+        frame.setSize(700, 700);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(new Main().initUI());
