@@ -11,6 +11,7 @@ public class DClass {
 	private String day;
 	private Time time;
 	private double duration;
+	private int termID;
 	
 	public int getID() {
 		return ID;
@@ -58,6 +59,14 @@ public class DClass {
 
 	public void setTime(Time time) {
 		this.time = time;
+	}
+
+	public int getTermID() {
+		return termID;
+	}
+
+	public void setTermID(int termID) {
+		this.termID = termID;
 	}
 	
 }

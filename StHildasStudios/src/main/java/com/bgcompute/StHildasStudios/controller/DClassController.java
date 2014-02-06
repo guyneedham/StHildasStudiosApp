@@ -51,12 +51,35 @@ public class DClassController {
 		db.migrateStudentsToClass(oldClass, newClass);
 	}
 	
-	public void addStudent(DClass dclass, Student student){
-		db.addStudentToClass(dclass.getID(), student.getID());
+	public void addStudent(int classID, int studentID){
+		db.addStudentToClass(classID, studentID);
 	}
 	
-	public void removeStudent(DClass dclass, Student student){
-		db.removeStudentFromClass(dclass.getID(), student.getID());
+	public void removeStudent(int dclass, int student){
+		db.removeStudentFromClass(dclass, student);
+	}
+	
+	public ArrayList<DClass> getClasses(int termID){
+		return db.getClassDetailsForTerm(termID);
+	}
+	
+	public ArrayList<DClass> getAllClasses(){
+		return db.getClasses();
+	}
+	
+	public DClass getSpecificClass(int ID){
+		ArrayList<DClass> classes = db.getClasses();
+		DClass rc = null;
+		for(DClass c : classes){
+			if(c.getID() == ID){
+				rc = c;
+			}
+		}
+		return rc;
+	}
+	
+	public void modifyClass(DClass c){
+		db.modifyClass(c);
 	}
 	
 }

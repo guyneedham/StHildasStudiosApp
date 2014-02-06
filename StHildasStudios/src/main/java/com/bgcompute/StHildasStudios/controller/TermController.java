@@ -48,20 +48,34 @@ public class TermController {
 		db.newTerm(term);
 	}
 	
-	public void addClass(DClass dclass, Term term){
-		db.addClassToTerm(term.getID(), dclass.getID(), dclass.getCost());
+	public void deleteTerm(int term){
+		db.deleteTerm(term);
 	}
 	
-	public void removeClass(DClass dclass, Term term){
-		db.deleteClassFromTerm(term.getID(), dclass.getID());
+	public void addClass(int classID, int termID, double classCost){
+		db.addClassToTerm(termID, classID, classCost);
 	}
 	
-	public void removeStudent(Student student, Term term){
-		db.deleteStudentFromTerm(term.getID(), student.getID());
+	public void removeClass(int classID, int termID){
+		db.deleteClassFromTerm(termID, classID);
 	}
 	
-	public void addStudent(Student student, Term term){
-		db.addStudentToTerm(student.getID(), term.getID());
+	public void removeStudent(int studentID, int termID){
+		db.deleteStudentFromTerm(termID, studentID);
+	}
+	
+	public void addStudent(int studentID, int termID){
+		ArrayList<Student> students = getStudents(termID);
+		boolean flag = false;
+		for(Student s : students){
+			if(s.getID() == studentID){
+				flag = true;
+				break;
+			}
+		}
+		if(!flag){
+			db.addStudentToTerm(studentID,termID);
+		}
 	}
 	
 	public ArrayList<Student> locationSortStudents(ArrayList<Student> students, String location){
@@ -78,6 +92,21 @@ public class TermController {
 	
 	public ArrayList<Student> showNotPaid(Term term){
 		return db.getStudentsNotPaid(term.getID());
+	}
+	
+	public void modifyTerm(Term term){
+		db.modifyTerm(term);
+	}
+	
+	public Term getTerm(int ID){
+		ArrayList<Term> terms = db.getTermDetails();
+		Term t=null;
+		for(Term t1 : terms){
+			if(t1.getID()==ID){
+				t = t1;
+			}
+		}
+		return t;
 	}
 	
 

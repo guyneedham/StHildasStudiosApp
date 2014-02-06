@@ -41,5 +41,7 @@ public interface Storage {
 	public void addStudentToTerm(int id, int id2);
 	public ArrayList<DClass> getClassesForStudent(int id);
 	public void modifyStudent(Student student);
-	
+	public void modifyTerm(Term term);
+	public ArrayList<DClass> getClasses();
+	public void modifyClass(DClass c);
 }

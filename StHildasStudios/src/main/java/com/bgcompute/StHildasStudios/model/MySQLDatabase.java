@@ -809,4 +809,70 @@ public class MySQLDatabase implements Storage {
 		return classes;
 	}
 	
+	public void modifyTerm(Term term){
+		logger.debug("Modifying term {}.",term.getID());
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call modifyTerm(?,?,?,?)}");
+			stmt.setInt(1, term.getID());
+			stmt.setString(2,term.getTitle());
+			stmt.setDate(3, term.getStartDate());
+			stmt.setDate(4, term.getEndDate());
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception updating a term.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+	}
+	
+	public ArrayList<DClass> getClasses(){
+		ArrayList<DClass> classes = new ArrayList<DClass>();
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call viewClasses()}");
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				DClass dclass = cf.newDClass();
+				dclass.setID(rs.getInt(1));
+				dclass.setName(rs.getString(2));
+				dclass.setDay(rs.getString(3));
+				dclass.setTime(rs.getTime(4));
+				dclass.setDuration(rs.getDouble(5));
+				dclass.setTermID(rs.getInt(6));
+				dclass.setCost(rs.getDouble(7));
+				classes.add(dclass);
+			}
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception getting all classes.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+		return classes;
+	}
+	
+	public void modifyClass(DClass c){
+		logger.debug("Modifying class {}.",c.getID());
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call modifyClass(?,?,?,?,?)}");
+			stmt.setInt(1, c.getID());
+			stmt.setString(2,c.getName());
+			stmt.setString(3, c.getDay());
+			stmt.setTime(4, c.getTime());
+			stmt.setDouble(5, c.getDuration());
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception updating a class.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+	}
+	
 }

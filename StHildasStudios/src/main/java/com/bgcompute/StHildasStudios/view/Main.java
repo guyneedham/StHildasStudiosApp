@@ -2,10 +2,12 @@ package com.bgcompute.StHildasStudios.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -15,6 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.apple.eawt.Application;
 import com.bgcompute.StHildasStudios.controller.DClassController;
 import com.bgcompute.StHildasStudios.controller.SchoolController;
 import com.bgcompute.StHildasStudios.controller.StudentController;
@@ -37,7 +40,9 @@ public class Main {
 	private static TermController tc;
 	
 	public Main() {
-
+		Image img = new ImageIcon("src/main/resources/StHildasLogo.png").getImage();  // your desired image  
+		Application app = Application.getApplication();
+		app.setDockIconImage(img);
 		initUI();
 	}
 

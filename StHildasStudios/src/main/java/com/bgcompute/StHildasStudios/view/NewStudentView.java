@@ -198,7 +198,7 @@ public class NewStudentView  {
 		panel.add(commentIn);
 
 		panel.setLayout(null);
-		panel.setToolTipText("Create a new student");
+		//panel.setToolTipText("Create a new student");
 
 		JButton submitButton = new JButton("Submit");
 		submitButton.setBounds(425, 245, 100, 30);

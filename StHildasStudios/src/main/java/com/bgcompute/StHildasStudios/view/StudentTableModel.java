@@ -56,46 +56,7 @@ public class StudentTableModel extends AbstractTableModel {
 		String mob = s.getMobile();
 		String location = s.getLocation();
 		String comment = s.getComment();
-		/*
-		if(addr1 == null || addr1.isEmpty()){
-			addr1 = "";
-		}
 		
-		if(addr2 == null || addr2.isEmpty()){
-			addr2 = "";
-		}
-		
-		if(addr3 == null || addr3.isEmpty()){
-			addr3 = "";
-		}
-		
-		if(postcode == null || postcode.isEmpty()){
-			postcode = "";
-		}
-		
-		if(RAD == null){
-			RAD = 0;
-		}
-		
-		if(email == null || email.isEmpty()){
-			email = "";
-		}
-		
-		if(phone == null){
-			phone = 0;
-		}
-		
-		if(mob == null){
-			mob = 0;
-		}
-		
-		if(location == null || location.isEmpty()){
-			location = "";
-		}
-		
-		if(comment == null || comment.isEmpty()){
-			comment = "";
-		}*/
 		switch(column){
 		case 0:
 			o = ID;
