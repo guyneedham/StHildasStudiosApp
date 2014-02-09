@@ -43,6 +43,7 @@ public class Menu implements ActionListener {
 	private DeleteClassView delClass;
 	private TermClassControlView termClass;
 	private StudentsInClass studentsInClass;
+	private MigrateData migrator;
 
 	public Menu(JDesktopPane d, SchoolController shc, StudentController stc, TermController tc, DClassController dc){
 		this.desk = d;
@@ -64,6 +65,7 @@ public class Menu implements ActionListener {
 		delClass = new DeleteClassView(dc);
 		termClass = new TermClassControlView(tc);
 		studentsInClass = new StudentsInClass(dc);
+		migrator = new MigrateData(tc,dc);
 	}
 
 	public JMenuBar getMenu(){
@@ -147,8 +149,89 @@ public class Menu implements ActionListener {
 		if("studentsInClassAgeAsc".equals(e.getActionCommand())){
 			studentsInClassAgeAsc();
 		}
+		if("studentToClass".equals(e.getActionCommand())){
+			studentToClass();
+		}
+		if("remStudentClass".equals(e.getActionCommand())){
+			remStudentFromClass();
+		}
+		if("migrateClass".equals(e.getActionCommand())){
+			migrateClass();
+		}
+		if("rollOverTerm".equals(e.getActionCommand())){
+			migrateTerm();
+		}
 	}
 	
+	public void migrateTerm(){
+		JInternalFrame iFrame = new JInternalFrame("Rollover a Term");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(600,600));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( migrator.migrateTerm() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
+	}
+	
+	public void migrateClass(){
+		JInternalFrame iFrame = new JInternalFrame("Migrate a Class");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(600,600));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( migrator.migrateClass() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
+	}
+	
+	private void remStudentFromClass(){
+		JInternalFrame iFrame = new JInternalFrame("Remove Student from Class");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(600,600));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( studentsInClass.removeStudent() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}	
+	}
+		
+	private void studentToClass() {
+		JInternalFrame iFrame = new JInternalFrame("Add Student to Class");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(600,600));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( studentsInClass.addStudent() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}	
+		
+	}
+
 	private void studentsInClassAgeAsc() {
 		JInternalFrame iFrame = new JInternalFrame("Students in Class sorted by Age Order (Asc)");
 		iFrame.setResizable(true);
@@ -538,6 +621,8 @@ public class Menu implements ActionListener {
 		term.add(currTerm);
 
 		JMenuItem rollOverTerm = new JMenuItem("Rollover a term");
+		rollOverTerm.setActionCommand("rollOverTerm");
+		rollOverTerm.addActionListener(this);
 		rollOverTerm.setToolTipText("Rollover students and classes from one term to another");
 		term.add(rollOverTerm);
 
@@ -613,6 +698,8 @@ public class Menu implements ActionListener {
 
 		JMenuItem migrateClass = new JMenuItem("Migrate a class");
 		migrateClass.setToolTipText("Migrate students from one class to another");
+		migrateClass.setActionCommand("migrateClass");
+		migrateClass.addActionListener(this);
 		dclass.add(migrateClass);
 
 		return dclass;

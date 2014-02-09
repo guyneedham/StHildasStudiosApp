@@ -22,9 +22,74 @@ public class StudentsInClass {
 	private JTextField classInputBox;
 	private JPanel panel;
 	private ArrayList<Student> students;
+	private JTextField studentInputBox;
 	
 	public StudentsInClass(DClassController dc){
 		this.dc=dc;
+	}
+	
+	public JPanel addStudent(){
+		JPanel panel = new JPanel();
+
+		classInputBox = new JTextField();
+		classInputBox.setText("Input the class ID here.");
+		classInputBox.setVisible(true);
+		classInputBox.setBounds(5,5,200,30);
+		panel.add(classInputBox);
+		
+		studentInputBox = new JTextField();
+		studentInputBox.setText("Input the student ID here.");
+		studentInputBox.setVisible(true);
+		studentInputBox.setBounds(210,5,200,30);
+		panel.add(studentInputBox);
+
+		JButton delStudent = new JButton();
+		delStudent.setText("Add Student");
+		delStudent.setBounds(5, 40, 100, 30);
+
+		delStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				int classID = Integer.parseInt(classInputBox.getText());
+				int studentID = Integer.parseInt(studentInputBox.getText());
+				dc.addStudent(classID, studentID);
+			}
+		});
+
+		panel.add(delStudent);
+		panel.validate();
+		return panel;
+	}
+	
+	public JPanel removeStudent(){
+		JPanel panel = new JPanel();
+
+		classInputBox = new JTextField();
+		classInputBox.setText("Input the class ID here.");
+		classInputBox.setVisible(true);
+		classInputBox.setBounds(5,5,200,30);
+		panel.add(classInputBox);
+		
+		studentInputBox = new JTextField();
+		studentInputBox.setText("Input the student ID here.");
+		studentInputBox.setVisible(true);
+		studentInputBox.setBounds(210,5,200,30);
+		panel.add(studentInputBox);
+
+		JButton delStudent = new JButton();
+		delStudent.setText("Remove Student");
+		delStudent.setBounds(5, 40, 100, 30);
+
+		delStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				int classID = Integer.parseInt(classInputBox.getText());
+				int studentID = Integer.parseInt(studentInputBox.getText());
+				dc.removeStudent(classID, studentID);
+			}
+		});
+
+		panel.add(delStudent);
+		panel.validate();
+		return panel;
 	}
 	
 	public JPanel ageAsc(){
@@ -53,6 +118,7 @@ public class StudentsInClass {
 		
 		return panel;
 	}
+	
 	
 	public JPanel ageDesc(){
 		panel = new JPanel();
@@ -83,7 +149,6 @@ public class StudentsInClass {
 	}
 	
 	private void addTable(){
-		System.out.println("Trying to add a table");
 		Container i = panel.getParent();
 		i.remove(panel);
 		i.add(showTable(students));
