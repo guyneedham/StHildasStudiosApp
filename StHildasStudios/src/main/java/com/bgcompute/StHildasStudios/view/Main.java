@@ -54,35 +54,7 @@ public class Main {
          };
          desk = new JDesktopPane();
 		
-/*
-		JPanel panel = new JPanel();
-		getContentPane().add(panel);
 
-		panel.setLayout(null);
-		panel.setToolTipText("A Panel container");
-
-		JButton btn = new JButton("Button");
-		btn.setBounds(100, 60, 100, 30);
-		btn.setToolTipText("A Button component");
-
-		panel.add(btn);
-		
-		JButton quitButton = new JButton("Quit");
-	       quitButton.setBounds(50, 10, 80, 30);
-	       
-	       quitButton.addActionListener(new ActionListener() {
-	           public void actionPerformed(ActionEvent event) {
-	               System.exit(0);
-	          }
-	       });
-	       quitButton.setToolTipText("Quit button");
-	       panel.add(quitButton);
-
-
-		setTitle("Example");
-		setSize(300, 200);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);*/
          Menu menu = new Menu(desk, shc, stc, tc, dc);
          pnlMain.add(menu.getMenu(), BorderLayout.PAGE_START);
          pnlMain.add(desk, BorderLayout.CENTER);

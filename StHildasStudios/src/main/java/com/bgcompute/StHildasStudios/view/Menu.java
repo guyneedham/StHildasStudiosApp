@@ -1,5 +1,6 @@
 package com.bgcompute.StHildasStudios.view;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
@@ -8,11 +9,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
@@ -44,6 +47,11 @@ public class Menu implements ActionListener {
 	private TermClassControlView termClass;
 	private StudentsInClass studentsInClass;
 	private MigrateData migrator;
+	private LocationSortView locationSorter;
+	private BillingView billView;
+	private MarkPaidView markPaidView;
+	private ShowNotPaidView showNotPaidView;
+	
 
 	public Menu(JDesktopPane d, SchoolController shc, StudentController stc, TermController tc, DClassController dc){
 		this.desk = d;
@@ -66,6 +74,10 @@ public class Menu implements ActionListener {
 		termClass = new TermClassControlView(tc);
 		studentsInClass = new StudentsInClass(dc);
 		migrator = new MigrateData(tc,dc);
+		locationSorter = new LocationSortView(dc,shc);
+		billView = new BillingView(tc,stc);
+		markPaidView = new MarkPaidView(tc);
+		showNotPaidView = new ShowNotPaidView(tc);
 	}
 
 	public JMenuBar getMenu(){
@@ -161,6 +173,143 @@ public class Menu implements ActionListener {
 		if("rollOverTerm".equals(e.getActionCommand())){
 			migrateTerm();
 		}
+		if("locationSortSchool".equals(e.getActionCommand())){
+			locationSortSchool();
+		}
+		if("locationSortClass".equals(e.getActionCommand() )){
+			locationSortClass();
+		}
+		if("billGen".equals(e.getActionCommand())){
+			billGen();
+		}
+		if("notPaid".equals(e.getActionCommand())){
+			notPaid();
+		}
+		if("markPaid".equals(e.getActionCommand())){
+			markPaid();
+		}
+	}
+	
+	public void notPaid(){
+		JInternalFrame iFrame = new JInternalFrame("Show Outstanding Payments");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(600,600));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( showNotPaidView.showNotPaid() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
+	}
+	
+	public void markPaid(){
+		JInternalFrame iFrame = new JInternalFrame("Mark as Paid");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(300,300));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( markPaidView.markPaid() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
+	}
+	
+	public JInternalFrame billingFrame;
+	
+	public void billGen(){
+		billingFrame = new JInternalFrame("Generate Bill");
+		billingFrame.setResizable(true);
+		billingFrame.setClosable(true);
+		billingFrame.setIconifiable(true);
+		billingFrame.setSize(new Dimension(700,700));
+		billingFrame.setLocation(0, 0);
+		billingFrame.getContentPane().add( billView.makeBill() );
+		billingFrame.setMaximizable(true);
+		billingFrame.setResizable(true);
+		billingFrame.setVisible(true);
+		
+		JMenuBar menu = new JMenuBar();
+		
+        JMenu file = new JMenu("File");
+        
+        JMenuItem save = new JMenuItem("Save Bill");
+        //JPanel panel = (JPanel) iFrame.getComponent(0);
+        save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				billingFrame.setJMenuBar(null);
+				JComponent panel = (JComponent) billingFrame.getComponent(0);
+				System.out.println("Get panel");
+				JInternalFrame saveBill = new JInternalFrame("Save...");
+				System.out.println("made frame");
+				saveBill.setResizable(true);
+				saveBill.setClosable(true);
+				saveBill.setIconifiable(true);
+				saveBill.setSize(new Dimension(600,200));
+				saveBill.setLocation(0, 0);
+				SaveBillView saveBillView = new SaveBillView(panel);
+				System.out.println("adding content");
+				saveBill.getContentPane().add( saveBillView.saveBox() );
+				saveBill.setMaximizable(true);
+				saveBill.setResizable(true);
+				saveBill.setVisible(true);
+				desk.add(saveBill);
+				try {
+					saveBill.setSelected(true);
+				} catch (java.beans.PropertyVetoException e) {}
+			}
+		});
+        file.add(save);
+        file.setMnemonic(KeyEvent.VK_F);
+        menu.add(file);
+        billingFrame.setJMenuBar(menu);
+        desk.add(billingFrame);
+		try {
+			billingFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
+	}
+	
+	public void locationSortClass(){
+		JInternalFrame iFrame = new JInternalFrame("Location Sort Class");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(600,600));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( locationSorter.sortClass() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
+	}
+	
+	public void locationSortSchool(){
+		JInternalFrame iFrame = new JInternalFrame("Location Sort School");
+		iFrame.setResizable(true);
+        iFrame.setClosable(true);
+        iFrame.setIconifiable(true);
+        iFrame.setSize(new Dimension(600,600));
+        iFrame.setLocation(0, 0);
+        iFrame.getContentPane().add( locationSorter.sortSchool() );
+        iFrame.setMaximizable(true);
+        iFrame.setResizable(true);
+        iFrame.setVisible(true);
+        desk.add(iFrame);
+		try {
+			iFrame.setSelected(true);
+		} catch (java.beans.PropertyVetoException e) {}
 	}
 	
 	public void migrateTerm(){
@@ -553,6 +702,11 @@ public class Menu implements ActionListener {
 		school.setMnemonic(KeyEvent.VK_S);
 
 		JMenu viewStudents = new JMenu("View Students");
+		
+		JMenuItem locationSort = new JMenuItem("Location sort");
+		locationSort.setActionCommand("locationSortSchool");
+		locationSort.addActionListener(this);
+		viewStudents.add(locationSort);
 
 		JMenuItem ageDesc = new JMenuItem("Age sort (descending)");
 		ageDesc.setMnemonic(KeyEvent.VK_D);
@@ -616,10 +770,26 @@ public class Menu implements ActionListener {
 		delTerm.setActionCommand("delTerm");
 		delTerm.addActionListener(this);
 		term.add(delTerm);
-
-		JMenuItem currTerm = new JMenuItem("Change current term");
-		term.add(currTerm);
-
+		
+		JMenu bill = new JMenu("Billing...");
+		
+		JMenuItem billing = new JMenuItem("Generate a Bill");
+		billing.setActionCommand("billGen");
+		billing.addActionListener(this);
+		bill.add(billing);
+		
+		JMenuItem notPaid = new JMenuItem("Show students with outstanding payment");
+		notPaid.setActionCommand("notPaid");
+		notPaid.addActionListener(this);
+		bill.add(notPaid);
+		
+		JMenuItem markPaid = new JMenuItem("Mark a student as paid");
+		markPaid.setActionCommand("markPaid");
+		markPaid.addActionListener(this);
+		bill.add(markPaid);
+		
+		term.add(bill);
+		
 		JMenuItem rollOverTerm = new JMenuItem("Rollover a term");
 		rollOverTerm.setActionCommand("rollOverTerm");
 		rollOverTerm.addActionListener(this);
@@ -660,6 +830,11 @@ public class Menu implements ActionListener {
 		JMenu studentSubMenu = new JMenu("Student...");		
 		
 		JMenu showStudents = new JMenu("Show Students in Class");
+		
+		JMenuItem locationSortClass = new JMenuItem("Location Sorted");
+		locationSortClass.setActionCommand("locationSortClass");
+		locationSortClass.addActionListener(this);
+		showStudents.add(locationSortClass);
 		
 		JMenuItem studentsInClassAgeDesc = new JMenuItem("Age (Desc)");
 		studentsInClassAgeDesc.setActionCommand("studentsInClassAgeDesc");

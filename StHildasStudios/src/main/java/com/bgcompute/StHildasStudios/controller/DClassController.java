@@ -53,10 +53,26 @@ public class DClassController {
 	
 	public void addStudent(int classID, int studentID){
 		db.addStudentToClass(classID, studentID);
+		ArrayList<DClass> classes = db.getClasses();
+		DClass dclass = classes.get(classID);
+		if(dclass.getTermID() != 0){
+			double cost = dclass.getCost();
+			db.addToBilling(dclass.getTermID(), classID, studentID, cost);
+		}
 	}
 	
-	public void removeStudent(int dclass, int student){
-		db.removeStudentFromClass(dclass, student);
+	public void removeStudent(int dclassID, int student){
+		db.removeStudentFromClass(dclassID, student);
+		ArrayList<DClass> classes = db.getClasses();
+		//DClass dclass = classes.get(dclassID);
+		DClass dclass = null;
+		for(DClass dc : classes){
+			if(dc.getID() == dclassID){
+				db.removeFromBilling(dc.getTermID(), dclassID, student);
+			}
+		}
+		
+		
 	}
 	
 	public ArrayList<DClass> getClasses(int termID){

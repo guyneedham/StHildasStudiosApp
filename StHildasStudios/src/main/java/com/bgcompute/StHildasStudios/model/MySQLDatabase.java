@@ -261,6 +261,7 @@ public class MySQLDatabase implements Storage {
 	}
 
 	public ArrayList<Student> ageSortClassDesc(int classID) {
+		logger.debug("Age sorting class {} (desc)",classID);
 		ArrayList<Student> students = new ArrayList<Student>();
 		Connection conn = connPool.checkOut();
 		try {
@@ -296,6 +297,7 @@ public class MySQLDatabase implements Storage {
 	}
 
 	public ArrayList<Student> ageSortClassAsc(int classID) {
+		logger.debug("Age sorting class {} (asc).",classID);
 		ArrayList<Student> students = new ArrayList<Student>();
 		Connection conn = connPool.checkOut();
 		try {
@@ -331,6 +333,7 @@ public class MySQLDatabase implements Storage {
 	}
 
 	public ArrayList<Student> ageSortSchoolDesc() {
+		logger.debug("Age sorting school (desc).");
 		ArrayList<Student> students = new ArrayList<Student>();
 		Connection conn = connPool.checkOut();
 		try {
@@ -365,6 +368,7 @@ public class MySQLDatabase implements Storage {
 	}
 
 	public ArrayList<Student> ageSortSchoolAsc() {
+		logger.debug("Age sorting school (asc).");
 		ArrayList<Student> students = new ArrayList<Student>();
 		Connection conn = connPool.checkOut();
 		try {
@@ -488,7 +492,7 @@ public class MySQLDatabase implements Storage {
 	}
 
 	public ArrayList<Student> getStudentDetailsFromName(String first, String last) {
-
+		logger.debug("Getting student details for {} {}",first,last);
 		ArrayList<Student> students = new ArrayList<Student>();
 		Connection conn = connPool.checkOut();
 		try {
@@ -525,6 +529,7 @@ public class MySQLDatabase implements Storage {
 	}
 
 	public Student getStudentDetailsFromID(int ID) {
+		logger.debug("Getting details of student {}.",ID);
 		Student student = sf.newStudent();
 		Connection conn = connPool.checkOut();
 		try {
@@ -687,6 +692,7 @@ public class MySQLDatabase implements Storage {
 	}
 
 	public ArrayList<Student> getStudentsNotPaid(int termID) {
+		logger.debug("Getting students not paid for term {}.",termID);
 		ArrayList<Student> students = new ArrayList<Student>();
 		Connection conn = connPool.checkOut();
 		try {
@@ -722,6 +728,7 @@ public class MySQLDatabase implements Storage {
 	}
 
 	public ArrayList<DClass> getClassDetailsForTerm(int termID) {
+		logger.debug("Getting class details for term {}.",termID);
 		ArrayList<DClass> classes = new ArrayList<DClass>();
 		Connection conn = connPool.checkOut();
 		try {
@@ -749,6 +756,7 @@ public class MySQLDatabase implements Storage {
 	}	
 	
 	public ArrayList<Student> getStudentsForTerm(int termID) {
+		logger.debug("Getting students for term {}.",termID);
 		ArrayList<Student> students = new ArrayList<Student>();
 		Connection conn = connPool.checkOut();
 		try {
@@ -784,6 +792,7 @@ public class MySQLDatabase implements Storage {
 	}
 
 	public ArrayList<DClass> getClassesForStudent(int id) {
+		logger.debug("Getting classes for student {}.",id);
 		ArrayList<DClass> classes = new ArrayList<DClass>();
 		Connection conn = connPool.checkOut();
 		try {
@@ -829,6 +838,7 @@ public class MySQLDatabase implements Storage {
 	}
 	
 	public ArrayList<DClass> getClasses(){
+		logger.debug("Getting all classes.");
 		ArrayList<DClass> classes = new ArrayList<DClass>();
 		Connection conn = connPool.checkOut();
 		try {
@@ -873,6 +883,92 @@ public class MySQLDatabase implements Storage {
 		} finally {
 			connPool.checkIn(conn);
 		}
+	}
+
+	public void addToBilling(int termID, int classID, int studentID, double cost) {
+		logger.debug("Adding class {} to term {} for student {} for billing.",classID,termID,studentID);
+		Connection conn = connPool.checkOut();
+		try {//term class student cost
+			CallableStatement stmt = conn.prepareCall("{call addToBilling(?,?,?,?)}");
+			stmt.setInt(1, termID);
+			stmt.setInt(2, classID);
+			stmt.setInt(3, studentID);
+			stmt.setDouble(4, cost);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception updating the bill.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+		
+	}
+
+	public void removeFromBilling(int termID, int classID, int studentID) {
+		// term class student
+		logger.debug("Deleting class {} from term {} for student {} for billing.",classID,termID,studentID);
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call deleteFromBilling(?,?,?)}");
+			stmt.setInt(1, termID);
+			stmt.setInt(2, classID);
+			stmt.setInt(3, studentID);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception removing from billing.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+		
+	}
+	
+	public void removeClassFromBilling(int termID, int classID) {
+		// term class
+		logger.debug("Deleting class {} from term {} for billing.",classID,termID);
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call deleteClassTerm(?,?)}");
+			stmt.setInt(1, termID);
+			stmt.setInt(2, classID);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception removing from billing.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+		
+	}
+
+	public ArrayList<DClass> generateBill(int termID, int studentID) {
+		logger.debug("Generating bill for term {} for student {}.",termID,studentID);
+		ArrayList<DClass> classes = new ArrayList<DClass>();
+		Connection conn = connPool.checkOut();
+		try {
+			CallableStatement stmt = conn.prepareCall("{call generateBill(?,?)}");
+			stmt.setInt(1, termID);
+			stmt.setInt(2, studentID);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				//id,name,cost
+				DClass dclass = cf.newDClass();
+				//dclass.setID(rs.getInt(1));
+				dclass.setName(rs.getString(1));
+				dclass.setCost(rs.getDouble(2));
+				classes.add(dclass);
+			}
+			
+		} catch (SQLException e) {
+			logger.error("SQL exception getting bill.");
+			e.printStackTrace();
+		} finally {
+			connPool.checkIn(conn);
+		}
+		return classes;
 	}
 	
 }

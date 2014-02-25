@@ -44,4 +44,8 @@ public interface Storage {
 	public void modifyTerm(Term term);
 	public ArrayList<DClass> getClasses();
 	public void modifyClass(DClass c);
+	public void addToBilling(int termID,int classID,int studentID, double cost);
+	public void removeFromBilling(int termID,int classID,int studentID);
+	public ArrayList<DClass> generateBill(int termID, int studentID);
+	public void removeClassFromBilling(int termID, int classID);
 }
