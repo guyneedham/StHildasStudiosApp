@@ -248,16 +248,13 @@ public class Menu implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
 				billingFrame.setJMenuBar(null);
 				JComponent panel = (JComponent) billingFrame.getComponent(0);
-				System.out.println("Get panel");
 				JInternalFrame saveBill = new JInternalFrame("Save...");
-				System.out.println("made frame");
 				saveBill.setResizable(true);
 				saveBill.setClosable(true);
 				saveBill.setIconifiable(true);
 				saveBill.setSize(new Dimension(600,200));
 				saveBill.setLocation(0, 0);
 				SaveBillView saveBillView = new SaveBillView(panel);
-				System.out.println("adding content");
 				saveBill.getContentPane().add( saveBillView.saveBox() );
 				saveBill.setMaximizable(true);
 				saveBill.setResizable(true);

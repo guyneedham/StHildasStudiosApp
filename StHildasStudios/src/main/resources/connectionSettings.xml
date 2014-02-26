@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <connection>
 	<database id="MySQL">
-		<url>jdbc:mysql://192.168.11.5/sthildas?</url>
+		<url>jdbc:mysql://localhost/sthildas?</url>
 		<u>root</u>
 		<p>studio</p>
 	</database>

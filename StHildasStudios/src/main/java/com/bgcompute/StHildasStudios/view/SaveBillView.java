@@ -34,13 +34,13 @@ public class SaveBillView {
 		output = new JPanel();
 
 		path = new JTextField();
-		path.setText("Path here e.g. C:/My Documents/Bills/studentNameBill");
+		path.setText("Path here e.g. C:/My Documents/Bills/studentNameBill.jpeg");
 		path.setBounds(5,5,500,30);
 		output.add(path);
 
 		JButton saveButton = new JButton();
-		saveButton.setText("Save");
-		saveButton.setBounds(140, 110, 100, 30);
+		saveButton.setText("Save JPEG");
+		saveButton.setBounds(140, 110, 150, 30);
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				BufferedImage bi = new BufferedImage(input.getSize().width, input.getSize().height, BufferedImage.TYPE_INT_ARGB); 

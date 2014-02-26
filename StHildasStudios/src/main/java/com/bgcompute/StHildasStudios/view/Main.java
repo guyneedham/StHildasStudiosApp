@@ -40,9 +40,9 @@ public class Main {
 	private static TermController tc;
 	
 	public Main() {
-		Image img = new ImageIcon("src/main/resources/StHildasLogo.png").getImage();  // your desired image  
-		Application app = Application.getApplication();
-		app.setDockIconImage(img);
+		//Image img = new ImageIcon("src/main/resources/StHildasLogo.png").getImage();  // your desired image  
+		//Application app = Application.getApplication();
+		//app.setDockIconImage(img);
 		initUI();
 	}
 
