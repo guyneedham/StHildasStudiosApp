@@ -1,6 +1,9 @@
 package com.bgcompute.StHildasStudios.view;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -98,9 +102,21 @@ public class BillingView {
 		return resizedImage;
 	}
 	
+	private BufferedImage setTransparency(BufferedImage originalImage, float transparency){
+		BufferedImage altered = new BufferedImage(originalImage.getWidth(),originalImage.getHeight(),originalImage.getType());
+		
+		Graphics2D g = altered.createGraphics();
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, transparency));
+		g.drawImage(originalImage, 0, 0, originalImage.getWidth(), originalImage.getHeight(), null);
+		g.dispose();
+		
+		return altered;
+	}
+	
 	private JPanel writeBill(Student s, ArrayList<DClass> classes){
 		JPanel bill = new JPanel();
-		
+		bill.setOpaque(true);
+		bill.setBackground(Color.white);
 		//GridLayout gridLayout = new GridLayout(4,2,5,5);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		GridBagConstraints cons = new GridBagConstraints();
@@ -111,6 +127,8 @@ public class BillingView {
 			int newHeight = logo.getHeight()/5;
 			int newWidth = logo.getWidth()/5;
 			logo = resizeImage(logo, imageType, newHeight, newWidth);
+			float transparency = 0.1f;
+			//logo = setTransparency(logo,transparency);
 			JLabel logoLabel  = new JLabel(new ImageIcon(logo));
 			cons.weightx = 0.5;
 			cons.fill = GridBagConstraints.NONE;
@@ -201,10 +219,31 @@ public class BillingView {
 			
 			starty = starty+1;
 		}
+		int width = cons.gridwidth;
+		int fill = cons.fill;
+		double weight = cons.weightx;
+		starty=starty+1;
+		
+		JSeparator line = new JSeparator(SwingConstants.HORIZONTAL);
+		//line.setSize(50, 3);
+		//line.setPreferredSize(new Dimension(5,1));
+		line.setForeground(Color.black);
+		cons.fill = GridBagConstraints.HORIZONTAL;
+		cons.gridy=starty;
+		/*cons.weightx = 1.0;
+		cons.gridx = startx;
+		cons.gridwidth = GridBagConstraints.REMAINDER;
+		cons.gridy=starty;*/
+		bill.add(line,cons);
+		
+		cons.fill = fill;
+		cons.weightx = weight;
+		cons.gridwidth = width;
+		starty = starty+1;
 		
 		JLabel totalLabel = new JLabel();
 		totalLabel.setText("Total");
-		cons.insets = new Insets(10,0,0,0);
+		//cons.insets = new Insets(10,0,0,0);
 		cons.gridx = startx;
 		cons.gridy = starty;
 		//totalLabel.setBounds(classx,starty,classwidth,classheight);
@@ -217,7 +256,7 @@ public class BillingView {
 		//totalCost.setBounds(costx,starty,costwidth,costheight);
 		bill.add(totalCost,cons);
 		
-		int endy = starty+1;
+		int endy = starty+2;
 		
 		JLabel billingMessage = new JLabel("<html>(BACS to 20-75-92 F.M.Lavington-Evans 80560332. Cheques payable to F.M.Lavington-Evans; <P>"
 			                                    );
