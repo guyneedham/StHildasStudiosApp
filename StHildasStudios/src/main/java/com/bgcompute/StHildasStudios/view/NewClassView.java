@@ -92,7 +92,13 @@ public class NewClassView {
 				}
 				
 				String durationIn = duration.getText();
-				double dur = Double.parseDouble(durationIn);
+				double dur;
+				if(durationIn.equals("")||durationIn.isEmpty()){
+					dur = 0.0;
+				} else {
+					dur = Double.parseDouble(durationIn);
+				}
+				
 				/*
 				String costIn = cost.getText();
 				double cos = Double.parseDouble(costIn);
